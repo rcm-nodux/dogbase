@@ -6,7 +6,7 @@ size_t database_size = 0;
 void load_database(const char* filename) {
     FILE* file = fopen(filename, "rb");
     if (!file) {
-        printf("Не удалось открыть файл для чтения\nНачинаем с пустой базы данных\n");
+        printf("РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ С‡С‚РµРЅРёСЏ\nРќР°С‡РёРЅР°РµРј СЃ РїСѓСЃС‚РѕР№ Р±Р°Р·С‹ РґР°РЅРЅС‹С…\n");
         return;
     }
 
@@ -17,7 +17,7 @@ void load_database(const char* filename) {
     database_size = file_size / sizeof(Dog);
     database = malloc(database_size * sizeof(Dog));
     if (!database) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         fclose(file);
         exit(1);
     }
@@ -29,7 +29,7 @@ void load_database(const char* filename) {
 void save_database(const char* filename) {
     FILE* file = fopen(filename, "wb");
     if (!file) {
-        printf("Не удалось открыть файл для записи\n");
+        printf("РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ Р·Р°РїРёСЃРё\n");
         return;
     }
 
@@ -39,50 +39,50 @@ void save_database(const char* filename) {
 
 void display_database() {
     if (database_size == 0) {
-        printf("База данных пуста\n");
+        printf("Р‘Р°Р·Р° РґР°РЅРЅС‹С… РїСѓСЃС‚Р°\n");
         return;
     }
 
-    printf("\nБаза данных собак:\n");
+    printf("\nР‘Р°Р·Р° РґР°РЅРЅС‹С… СЃРѕР±Р°Рє:\n");
     for (size_t i = 0; i < database_size; i++) {
-        printf("%zu. Имя: %s, Возраст: %d, Порода: %s\n", i + 1, database[i].name, database[i].age, database[i].breed);
+        printf("%zu. РРјСЏ: %s, Р’РѕР·СЂР°СЃС‚: %d, РџРѕСЂРѕРґР°: %s\n", i + 1, database[i].name, database[i].age, database[i].breed);
     }
 }
 
 void add_dog() {
     Dog new_dog;
 
-    printf("Введите имя собаки: ");
+    printf("Р’РІРµРґРёС‚Рµ РёРјСЏ СЃРѕР±Р°РєРё: ");
     scanf("%s", new_dog.name);
-    printf("Введите возраст собаки: ");
+    printf("Р’РІРµРґРёС‚Рµ РІРѕР·СЂР°СЃС‚ СЃРѕР±Р°РєРё: ");
     scanf("%d", &new_dog.age);
-    printf("Введите породу собаки: ");
+    printf("Р’РІРµРґРёС‚Рµ РїРѕСЂРѕРґСѓ СЃРѕР±Р°РєРё: ");
     scanf("%s", new_dog.breed);
 
     Dog* new_database = realloc(database, (database_size + 1) * sizeof(Dog));
     if (!new_database) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         return;
     }
 
     database = new_database;
     database[database_size++] = new_dog;
 
-    printf("Собака успешно добавлена\n");
+    printf("РЎРѕР±Р°РєР° СѓСЃРїРµС€РЅРѕ РґРѕР±Р°РІР»РµРЅР°\n");
 }
 
 void delete_dog() {
     if (database_size == 0) {
-        printf("База данных пуста\n");
+        printf("Р‘Р°Р·Р° РґР°РЅРЅС‹С… РїСѓСЃС‚Р°\n");
         return;
     }
 
     size_t index;
-    printf("Введите номер собаки для удаления: ");
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЃРѕР±Р°РєРё РґР»СЏ СѓРґР°Р»РµРЅРёСЏ: ");
     scanf("%zu", &index);
 
     if (index < 1 || index > database_size) {
-        printf("Неверный номер\n");
+        printf("РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ\n");
         return;
     }
 
@@ -92,60 +92,60 @@ void delete_dog() {
 
     Dog* new_database = realloc(database, (database_size - 1) * sizeof(Dog));
     if (!new_database && database_size - 1 > 0) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         return;
     }
 
     database = new_database;
     database_size--;
 
-    printf("Собака успешно удалена\n");
+    printf("РЎРѕР±Р°РєР° СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅР°\n");
 }
 
 void edit_dog() {
     if (database_size == 0) {
-        printf("База данных пуста\n");
+        printf("Р‘Р°Р·Р° РґР°РЅРЅС‹С… РїСѓСЃС‚Р°\n");
         return;
     }
 
     size_t index;
-    printf("Введите номер собаки для редактирования: ");
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЃРѕР±Р°РєРё РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ: ");
     scanf("%zu", &index);
 
     if (index < 1 || index > database_size) {
-        printf("Неверный номер\n");
+        printf("РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ\n");
         return;
     }
 
     Dog* dog = &database[index - 1];
 
-    printf("Редактирование собаки: %s\n", dog->name);
-    printf("Введите новое имя: ");
+    printf("Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЃРѕР±Р°РєРё: %s\n", dog->name);
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРІРѕРµ РёРјСЏ: ");
     scanf("%s", dog->name);
-    printf("Введите новый возраст: ");
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Р№ РІРѕР·СЂР°СЃС‚: ");
 	int new_age;
     scanf("%d", &new_age);
 	dog->age = new_age;
-    printf("Введите новую породу: ");
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРІСѓСЋ РїРѕСЂРѕРґСѓ: ");
     scanf("%s", dog->breed);
 
-    printf("Собака успешно обновлена\n");
+    printf("РЎРѕР±Р°РєР° СѓСЃРїРµС€РЅРѕ РѕР±РЅРѕРІР»РµРЅР°\n");
 }
 
 void search_dog() {
     if (database_size == 0) {
-        printf("База данных пуста\n");
+        printf("Р‘Р°Р·Р° РґР°РЅРЅС‹С… РїСѓСЃС‚Р°\n");
         return;
     }
 
     char query[MAX_LEN];
-    printf("Введите имя или породу для поиска: ");
+    printf("Р’РІРµРґРёС‚Рµ РёРјСЏ РёР»Рё РїРѕСЂРѕРґСѓ РґР»СЏ РїРѕРёСЃРєР°: ");
     scanf("%s", query);
 
-    printf("\nРезультаты поиска:\n");
+    printf("\nР РµР·СѓР»СЊС‚Р°С‚С‹ РїРѕРёСЃРєР°:\n");
     for (size_t i = 0; i < database_size; i++) {
         if (strstr(database[i].name, query) || strstr(database[i].breed, query)) {
-            printf("%zu. Имя: %s, Возраст: %d, Порода: %s\n", i + 1, database[i].name, database[i].age, database[i].breed);
+            printf("%zu. РРјСЏ: %s, Р’РѕР·СЂР°СЃС‚: %d, РџРѕСЂРѕРґР°: %s\n", i + 1, database[i].name, database[i].age, database[i].breed);
         }
     }
 }
@@ -154,14 +154,14 @@ void menu(const char* filename) {
     int choice;
 
     do {
-        printf("\nМеню:\n");
-        printf("1. Показать всех собак\n");
-        printf("2. Добавить новую собаку\n");
-        printf("3. Удалить собаку\n");
-        printf("4. Редактировать собаку\n");
-        printf("5. Искать собак\n");
-        printf("6. Выйти\n");
-        printf("Введите ваш выбор: ");
+        printf("\nРњРµРЅСЋ:\n");
+        printf("1. РџРѕРєР°Р·Р°С‚СЊ РІСЃРµС… СЃРѕР±Р°Рє\n");
+        printf("2. Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІСѓСЋ СЃРѕР±Р°РєСѓ\n");
+        printf("3. РЈРґР°Р»РёС‚СЊ СЃРѕР±Р°РєСѓ\n");
+        printf("4. Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ СЃРѕР±Р°РєСѓ\n");
+        printf("5. РСЃРєР°С‚СЊ СЃРѕР±Р°Рє\n");
+        printf("6. Р’С‹Р№С‚Рё\n");
+        printf("Р’РІРµРґРёС‚Рµ РІР°С€ РІС‹Р±РѕСЂ: ");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -182,10 +182,10 @@ void menu(const char* filename) {
                 break;
             case 6:
                 save_database(filename);
-                printf("Выход из программы\n");
+                printf("Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹\n");
                 break;
             default:
-                printf("Неверный выбор\n");
+                printf("РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ\n");
         }
     } while (choice != 6);
 }
